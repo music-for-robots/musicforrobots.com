@@ -175,10 +175,31 @@ p { margin: 0 0 16px; }
 
 /* DSCO */
 .dsco-sec { background: linear-gradient(to bottom, transparent, rgb(0 229 204 / .04) 50%, transparent); }
-.dsco-grid { display: grid; grid-template-columns: auto 1fr; gap: clamp(32px, 6vw, 72px); align-items: center; }
-.dsco-fig { position: relative; padding: 28px; border: 1px dashed var(--accent-dim); }
-.dsco-fig .sprite { animation: strip .9s steps(var(--n)) infinite, bob 1.6s ease-in-out infinite; }
-.dsco-fig figcaption { position: absolute; left: 10px; bottom: -11px; background: var(--bg); padding: 0 6px; font-size: 13px; color: var(--dim); }
+.dsco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px clamp(32px, 6vw, 72px); align-items: end; }
+.dsco-demo { margin: 40px auto 0; max-width: 860px; border: 1px solid var(--accent-dim); background: var(--panel); }
+.dsco-demo canvas { display: block; width: 100%; height: auto; aspect-ratio: 380 / 170; image-rendering: pixelated; }
+.dsco-foot { display: grid; grid-template-columns: 1fr auto; gap: 12px 24px; align-items: center; padding: 12px 14px; border-top: 1px solid var(--accent-faint); }
+.dsco-steps { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 0; padding: 0; list-style: none; font-size: 14px; color: var(--dim); }
+.dsco-steps li { transition: color .15s; }
+.dsco-steps li.on { color: var(--accent); }
+.dsco-steps li.on::before { content: "\25B6  "; }
+.dsco-hud { min-width: 260px; border: 1px solid var(--accent-dim); padding: 6px 10px; font-size: 14px; }
+.dsco-hud .row { display: flex; justify-content: space-between; gap: 12px; }
+.dsco-hud .tag { background: var(--accent); color: var(--bg); padding: 0 5px; margin-right: 8px; }
+.dsco-hud .track { height: 4px; background: var(--accent-faint); margin-top: 6px; }
+.dsco-hud .fill { height: 100%; background: var(--scrip); width: 0; transition: width .08s; }
+.dsco-hud.empty { color: var(--dim); }
+
+/* item spotlight */
+.items { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 40px; }
+.item { --r: #b3b3b3; border: 1px solid var(--accent-faint); background: var(--panel); padding: 18px; display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; align-content: start; }
+.item .icon { width: 96px; height: 96px; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--r) 55%, transparent); background: radial-gradient(circle, color-mix(in srgb, var(--r) 22%, transparent), transparent 70%); }
+.item .icon img { width: 64px; height: 64px; image-rendering: pixelated; transform: scale(1.35); }
+.item .rarity { font-size: 12px; color: var(--r); margin: 0 0 4px; }
+.item h3 { font-family: var(--display); font-weight: 800; font-size: 18px; color: var(--title); margin: 0 0 8px; line-height: 1.15; }
+.item .what { font-size: 15px; color: var(--text); margin: 0; }
+.item .flavor { grid-column: 1 / -1; font-size: 14px; color: var(--dim); margin: 0; border-top: 1px dashed var(--accent-faint); padding-top: 10px; }
+.item.unc { --r: #59D966; } .item.rare { --r: #AA44FF; } .item.xeno { --r: #FF8C28; }
 
 /* features */
 .feats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--accent-faint); border: 1px solid var(--accent-faint); margin-top: 40px; }
@@ -224,14 +245,18 @@ footer a:hover { color: var(--accent); }
 @media (max-width: 960px) {
   .ops { grid-template-columns: repeat(2, 1fr); }
   .contract, .dsco-grid { grid-template-columns: minmax(0, 1fr); }
-  .dsco-fig { justify-self: center; }
+  .items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dsco-foot { grid-template-columns: minmax(0, 1fr); }
   .zones { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 600px) {
   body { font-size: 17px; }
   .ops, .feats { grid-template-columns: minmax(0, 1fr); }
-  .dsco-fig { padding: 16px; }
-  .dsco-fig .sprite { --s: 2.4 !important; }
+  .items { grid-template-columns: minmax(0, 1fr); }
+  .item { grid-template-columns: 72px minmax(0, 1fr); }
+  .item .icon { width: 72px; height: 72px; }
+  .item .icon img { transform: none; }
+  .dsco-hud { min-width: 0; }
   .parade { height: 120px; }
   .squad { transform: scale(.66); transform-origin: left bottom; }
   .btn { width: 100%; justify-content: center; }
@@ -343,7 +368,7 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
         </div>
         <div class="op-body">
           <h3>WRAITH</h3>
-          <p class="role">Dagger spray. Devil Trigger.</p>
+          <p class="role">Thrown daggers. Borrowed fury.</p>
           <p>The highest damage on the roster, attached to the thinnest skin on the roster.</p>
         </div>
       </article>
@@ -352,17 +377,32 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
 </section>
 
 <section class="dsco-sec" id="dsco">
-  <div class="wrap dsco-grid">
-    <figure class="dsco-fig">
-      <div class="sprite" role="img" aria-label="DSCO drone" style="--w:84;--h:84;--n:9;--s:3;--img:url(assets/sprites/dsco_idle.png)"></div>
-      <figcaption>DSCO // UNIT ASSIGNED</figcaption>
-    </figure>
-    <div class="prose">
-      <p class="kicker">STANDARD ISSUE</p>
-      <h2>Your drone carries the big gun.</h2>
-      <p>Field weapons do not go in your hands. They go to your DSCO, a Deployable Support Combat Operator: a drone that follows you, holds the weapon, and fires when you fire.</p>
-      <p>Pick up a railgun and the drone brings it along until the ammunition runs out, then drops it and waits for the next one. You are never unarmed and never stuck with a bad pickup.</p>
+  <div class="wrap">
+    <div class="dsco-grid">
+      <div>
+        <p class="kicker">STANDARD ISSUE</p>
+        <h2>Your drone carries the big gun.</h2>
+      </div>
+      <div class="prose">
+        <p>Field weapons do not go in your hands. They go to your DSCO, a Deployable Support Combat Operator: a drone that follows you, holds the weapon, and fires when you fire.</p>
+        <p>It keeps the gun until the ammunition runs out, then drops it and waits for the next one. Your own weapon never runs dry, so you are never unarmed and never stuck with a bad pickup.</p>
+      </div>
     </div>
+
+    <figure class="dsco-demo">
+      <canvas id="dsco-stage" width="380" height="170" role="img" aria-label="The DSCO drone tractor-beams a field weapon off the floor, fires it alongside Grunt until it runs dry, then drops it."></canvas>
+      <figcaption class="dsco-foot">
+        <ol class="dsco-steps">
+          <li data-dsco-step="1" class="on">01 FIND A GUN</li>
+          <li data-dsco-step="2">02 IT FIRES WHEN YOU FIRE</li>
+          <li data-dsco-step="3">03 DRY. DROPPED. NEXT.</li>
+        </ol>
+        <div class="dsco-hud empty" id="dsco-hud" aria-hidden="true">
+          <div class="row"><span><span class="tag">DSCO</span><span id="dsco-hud-name">NO FIELD WEAPON</span></span><span id="dsco-hud-ammo">--</span></div>
+          <div class="track"><div class="fill" id="dsco-hud-bar"></div></div>
+        </div>
+      </figcaption>
+    </figure>
   </div>
 </section>
 
@@ -404,6 +444,70 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
   </div>
 </section>
 
+<section id="requisitions">
+  <div class="wrap">
+    <p class="kicker">REQUISITIONS</p>
+    <h2>A selection from the catalogue.</h2>
+    <p class="prose muted">Everything stacks, and the stacks multiply. Six of the sixty-odd items in the field.</p>
+    <div class="items">
+      <article class="item unc">
+        <div class="icon"><img src="assets/items/SplitBarrel.png" alt="" width="64" height="64" loading="lazy"></div>
+        <div>
+          <p class="rarity">UNCOMMON</p>
+          <h3>Split Barrel</h3>
+          <p class="what">Fire one extra shot per stack, spread in a fan. Each extra shot deals 50% damage.</p>
+        </div>
+        <p class="flavor">// Barrel splitter, non-regulation. Quartermaster declines to certify grouping but notes 'more is more.'</p>
+      </article>
+      <article class="item xeno">
+        <div class="icon"><img src="assets/items/ArmyOfMe.png" alt="" width="64" height="64" loading="lazy"></div>
+        <div>
+          <p class="rarity">XENOTECH</p>
+          <h3>Army of Me</h3>
+          <p class="what">A mirror of you fires the same shots 0.5 s later. +1 mirror per stack; each inherits every item you carry.</p>
+        </div>
+        <p class="flavor">// Phase-shifted echo of the operative. Tactical duplicate; no manifest assignment required.</p>
+      </article>
+      <article class="item xeno">
+        <div class="icon"><img src="assets/items/FiftyFiftyCrown.png" alt="" width="64" height="64" loading="lazy"></div>
+        <div>
+          <p class="rarity">XENOTECH</p>
+          <h3>Fifty-Fifty Crown</h3>
+          <p class="what">Every item with a proc chance becomes a coin flip.</p>
+        </div>
+        <p class="flavor">// WARDEN probability-bias regulator. Collapses weighted outcomes to an even two-state; a paired unit pins the result. Additional units are decorative.</p>
+      </article>
+      <article class="item xeno">
+        <div class="icon"><img src="assets/items/Bombtrack.png" alt="" width="64" height="64" loading="lazy"></div>
+        <div>
+          <p class="rarity">XENOTECH</p>
+          <h3>Bombtrack</h3>
+          <p class="what">Kills leave a 1.5 s fuse. Detonation: 60 damage per stack.</p>
+        </div>
+        <p class="flavor">// Residual ordnance signature in target tissue. Detonation interval consistent across forensic samples.</p>
+      </article>
+      <article class="item rare">
+        <div class="icon"><img src="assets/items/IWillFollow.png" alt="" width="64" height="64" loading="lazy"></div>
+        <div>
+          <p class="rarity">RARE</p>
+          <h3>Seek and Destroy</h3>
+          <p class="what">Shots curve toward the nearest enemy. Stacks tighten the curve.</p>
+        </div>
+        <p class="flavor">// Self-calibrating micro-fin retrofit. Point of aim is now advisory.</p>
+      </article>
+      <article class="item rare">
+        <div class="icon"><img src="assets/items/LazarusChip.png" alt="" width="64" height="64" loading="lazy"></div>
+        <div>
+          <p class="rarity">RARE</p>
+          <h3>Lazarus Chip</h3>
+          <p class="what">Survive a killing blow, reviving at full HP. Consumes one chip per use.</p>
+        </div>
+        <p class="flavor">// Rated for one use. Additional uses not covered under field warranty.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
 <section class="cta-sec" id="demo">
   <div class="wrap">
     <p class="kicker">STEAM NEXT FEST · OCT 19–26</p>
@@ -437,6 +541,7 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
   </div>
 </footer>
 
+<script src="assets/dsco-demo.js" defer></script>
 <script>
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
     const v = document.querySelector(".hero-video");
