@@ -24,6 +24,7 @@
   // in cell px, measured from the TOP (Unity's is from the bottom).
   // cycN = frames in the held-gun strip (48 px cells).
   const HOLD = 51.2;
+  const BEAM_FROM = 24; // the drone's hand, just clear of the body
   const WEAPONS = [
     { name: "SCRAP SMG", floor: D("scrap_smg"), cyc: D("scrap_smg_cycle"), cycN: 5, cycSec: 0.08,
       flash: D("muzzle_scrap_smg"), flashPivot: [16.5, 24.5], muzzle: [73.2, 7.5],
@@ -72,7 +73,7 @@
     return Math.atan2(ty - p.y, tx - p.x);
   }
 
-  function spawnChaff(x) { S.chaffs.push({ x: x ?? W - 20, hp: 5, hit: 0, f: Math.random() * 9 }); }
+  function spawnChaff(x) { S.chaffs.push({ x: x ?? W - 20, hp: 8, hit: 0, f: Math.random() * 9 }); }
 
   function hitTest(x, y) {
     for (const c of S.chaffs) if (c.hp > 0 && x > c.x + 26 && x < c.x + 62 && y > FLOOR - 48 && y < FLOOR) return c;
@@ -155,7 +156,7 @@
     S.bullets = S.bullets.filter((b) => !b.dead);
     for (const c of S.chaffs) {
       c.f += dt * 12; c.hit -= dt;
-      if (c.hp > 0 && c.x > 150) c.x -= 30 * dt;
+      if (c.hp > 0 && c.x > 150) c.x -= 62 * dt;
     }
     S.chaffs = S.chaffs.filter((c) => c.hp > 0);
     for (const b of S.beams) b.t += dt;
@@ -217,7 +218,7 @@
 
   function drawBeam() {
     if (S.phase !== "beam") return;
-    const c = dscoCenter(), p = offset(c, aimFrom(c), HOLD, 0), g = S.gun;
+    const c = dscoCenter(), p = offset(c, aimFrom(c), BEAM_FROM, 0), g = S.gun;
     if (Math.hypot(g.x - p.x, g.y - p.y) < 2) return;
     const dx = g.x - p.x, dy = g.y - p.y, L = Math.hypot(dx, dy) || 1, nx = -dy / L, ny = dx / L;
     const a = 0.35 + 0.2 * Math.sin(S.time * 40);
