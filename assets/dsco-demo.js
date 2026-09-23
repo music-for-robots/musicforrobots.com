@@ -36,6 +36,13 @@
       flash: null, muzzle: [71.7, 1.5], ammo: 3, rate: 0.35, charge: 0.75, kind: "lance" },
   ];
 
+  // The Lance's slug, in the game's own numbers at 32 px/unit (GameManager.
+  // LanceSlug.cs + SimToView.LanceSlug.cs): 90 u/s over a 22 u range, a 3.4 u
+  // tracer tail, and a tail that pulls in and fades over 0.16 s once it's gone.
+  // WEIGHT is a full charge (the sim's 0.7 + 0.6 x charge), which is all the demo fires.
+  const SLUG = { speed: 90 * 32, range: 22 * 32, tail: 3.4 * 32, fade: 0.16, weight: 1.3,
+    glowHalf: 0.2 * 32, coreHalf: 1.2, head: 0.95 * 32, color: [255, 62, 108] };
+
   // along the aim, then "up" off the barrel (canvas y runs down)
   const offset = (p, a, along, perp) => ({
     x: p.x + Math.cos(a) * along + Math.sin(a) * perp,
@@ -58,7 +65,7 @@
       wi, w: WEAPONS[wi], phase: "floor", t: 0, time: S ? S.time : 0,
       ammo: WEAPONS[wi].ammo, cd: 0.25, charge: 0, cycleT: 99, flashT: 99, gruntCd: 0.1, gruntFlashT: 99,
       spawnCd: 0, gun: { ...FLOOR_GUN, a: 0, alpha: 1 },
-      chaffs: S ? S.chaffs : [], bullets: [], beams: [], booms: S ? S.booms : [],
+      chaffs: S ? S.chaffs : [], bullets: [], slugs: [], glows: [], booms: S ? S.booms : [],
       pops: S ? S.pops : [], shake: 0,
     };
   }
@@ -102,16 +109,10 @@
         S.bullets.push({ x: muzzle.x, y: muzzle.y, vx: Math.cos(b) * 520, vy: Math.sin(b) * 520, c: "#ff8a4a", len: 5, w: 2, dmg: 1, shown: 9 });
       }
     } else {
-      // hitscan: everything along the ray goes
-      const dx = Math.cos(a), dy = Math.sin(a);
-      const x2 = muzzle.x + dx * 600, y2 = muzzle.y + dy * 600;
-      for (const c of S.chaffs) {
-        if (c.hp <= 0) continue;
-        const px = c.x + 44 - muzzle.x, py = FLOOR - 26 - muzzle.y;
-        const along = px * dx + py * dy, off = Math.abs(px * dy - py * dx);
-        if (along > 0 && off < 22) damage(c, 99, 180);
-      }
-      S.beams.push({ x1: muzzle.x, y1: muzzle.y, x2, y2, t: 0 });
+      // a slug: flies the range fast, piercing everything on its line
+      S.slugs.push({ ox: muzzle.x, oy: muzzle.y, x: muzzle.x, y: muzzle.y,
+        dx: Math.cos(a), dy: Math.sin(a), flown: 0, hit: new Set(), deadT: -1 });
+      S.glows.push({ x: muzzle.x, y: muzzle.y, t: 0, dur: 0.14, size: 1.5 * 32 * SLUG.weight });
     }
   }
 
@@ -165,8 +166,23 @@
       if (c.hp > 0 && c.x > 150) c.x -= 62 * dt;
     }
     S.chaffs = S.chaffs.filter((c) => c.hp > 0);
-    for (const b of S.beams) b.t += dt;
-    S.beams = S.beams.filter((b) => b.t < 0.35);
+    // Each tick the slug sweeps the stretch it just covered, the way the sim
+    // does, so nothing between two frames is skipped and nothing is hit twice.
+    for (const g of S.slugs) {
+      if (g.deadT >= 0) { g.deadT += dt; continue; }
+      const step = Math.min(SLUG.speed * dt, SLUG.range - g.flown);
+      for (const c of S.chaffs) {
+        if (c.hp <= 0 || g.hit.has(c)) continue;
+        const px = c.x + 44 - g.x, py = FLOOR - 26 - g.y;
+        const along = px * g.dx + py * g.dy, off = Math.abs(px * g.dy - py * g.dx);
+        if (along >= 0 && along <= step && off < 22) { g.hit.add(c); damage(c, 99, 180); }
+      }
+      g.x += g.dx * step; g.y += g.dy * step; g.flown += step;
+      if (g.flown >= SLUG.range || g.x > W + SLUG.tail || g.y > H + SLUG.tail) g.deadT = 0;
+    }
+    S.slugs = S.slugs.filter((g) => g.deadT < SLUG.fade);
+    for (const g of S.glows) g.t += dt;
+    S.glows = S.glows.filter((g) => g.t < g.dur);
     for (const b of S.booms) b.t += dt;
     S.booms = S.booms.filter((b) => b.t < 0.4);
     for (const q of S.pops) { q.t += dt; q.y -= 26 * dt; }
@@ -258,18 +274,57 @@
       ctx.strokeStyle = b.c; ctx.lineWidth = b.w;
       ctx.beginPath(); ctx.moveTo(b.x, b.y); ctx.lineTo(b.x - (b.vx / L) * b.len, b.y - (b.vy / L) * b.len); ctx.stroke();
     }
-    for (const b of S.beams) {
-      const k = 1 - b.t / 0.35;
-      ctx.strokeStyle = `rgba(120,200,255,${k * 0.5})`; ctx.lineWidth = 9 * k + 1;
-      ctx.beginPath(); ctx.moveTo(b.x1, b.y1); ctx.lineTo(b.x2, b.y2); ctx.stroke();
-      ctx.strokeStyle = `rgba(240,252,255,${k})`; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(b.x1, b.y1); ctx.lineTo(b.x2, b.y2); ctx.stroke();
-    }
+    drawSlugs();
     for (const b of S.booms) {
       if (!IMG.boom.complete) continue;
       const k = b.t / 0.4, s = 40 + 40 * k;
       ctx.globalAlpha = 1 - k; ctx.drawImage(IMG.boom, b.x - s / 2, b.y - s / 2, s, s); ctx.globalAlpha = 1;
     }
+  }
+
+  // Additive, like the game's: a soft red glow ribbon, a thin hot core that
+  // reddens toward the tail, and a red head glow with a white-hot centre.
+  function glowDisc(x, y, d, rgb, a) {
+    const r = d / 2, gr = ctx.createRadialGradient(x, y, 0, x, y, r);
+    gr.addColorStop(0, `rgba(${rgb},${0.55 * a})`);
+    gr.addColorStop(0.22, `rgba(${rgb},${0.55 * a})`);
+    gr.addColorStop(0.5, `rgba(${rgb},${0.18 * a})`);
+    gr.addColorStop(1, `rgba(${rgb},0)`);
+    ctx.fillStyle = gr; ctx.fillRect(x - r, y - r, d, d);
+  }
+
+  function drawSlugs() {
+    const red = SLUG.color.join(",");
+    ctx.save(); ctx.globalCompositeOperation = "lighter";
+    for (const g of S.glows) glowDisc(g.x, g.y, g.size * Math.sqrt(g.t / g.dur), red, (1 - g.t / g.dur) ** 2);
+    for (const g of S.slugs) {
+      let fade = 1, tail = SLUG.tail;
+      if (g.deadT >= 0) { const k = Math.min(1, g.deadT / SLUG.fade); fade = (1 - k) ** 2; tail *= 1 - 0.6 * k; }
+      const len = Math.min(g.flown, tail), bx = g.x - g.dx * len, by = g.y - g.dy * len;
+      const nx = -g.dy, ny = g.dx;
+      for (const [half, rgb, a] of [
+        // three stacked widths so the glow falls off across the bolt, not a hard edge
+        [SLUG.glowHalf * SLUG.weight, red, 0.2 * fade],
+        [SLUG.glowHalf * SLUG.weight * 0.6, red, 0.2 * fade],
+        [SLUG.glowHalf * SLUG.weight * 0.3, red, 0.2 * fade],
+        [SLUG.coreHalf * SLUG.weight, "255,217,212", fade],
+      ]) {
+        const lg = ctx.createLinearGradient(bx, by, g.x, g.y);
+        lg.addColorStop(0, `rgba(${rgb},0)`); lg.addColorStop(1, `rgba(${rgb},${a})`);
+        ctx.fillStyle = lg;
+        ctx.beginPath();
+        ctx.moveTo(bx + nx * half, by + ny * half); ctx.lineTo(g.x + nx * half, g.y + ny * half);
+        ctx.lineTo(g.x - nx * half, g.y - ny * half); ctx.lineTo(bx - nx * half, by - ny * half);
+        ctx.fill();
+      }
+      // the head goes out faster than the tail, so the line reads as left behind
+      const hf = g.deadT >= 0 ? fade * fade : 1;
+      if (hf > 0.01) {
+        glowDisc(g.x, g.y, SLUG.head * SLUG.weight, red, 0.9 * hf);
+        glowDisc(g.x, g.y, SLUG.head * 0.38 * SLUG.weight, "255,237,230", hf);
+      }
+    }
+    ctx.restore();
   }
 
   function drawPops() {
