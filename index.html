@@ -271,12 +271,14 @@ footer a:hover { color: var(--accent); }
 @keyframes strip-run { to { background-position-x: calc(var(--w) * var(--n) * var(--s) * -1px); } }
 
 /* 4. section headers wipe in on a stepped scanline once the kicker has started typing */
-.js section h2 { clip-path: inset(0 0 100% 0); }
+/* the clip reaches past the box on every side: line-height 1.05 puts descenders
+   (g, p, y) and the glow outside it, and an inset of 0 would shave them off */
+.js section h2 { clip-path: inset(-.3em -.3em 100% -.3em); }
 .js section h2.booted { animation: boot .42s steps(7) forwards; }
 @keyframes boot {
-  0% { clip-path: inset(0 0 100% 0); text-shadow: 0 0 0 transparent; }
+  0% { clip-path: inset(-.3em -.3em 100% -.3em); text-shadow: 0 0 0 transparent; }
   70% { text-shadow: 0 0 18px rgb(0 229 204 / .7); }
-  100% { clip-path: inset(0 0 0 0); text-shadow: 0 0 0 transparent; }
+  100% { clip-path: inset(-.3em -.3em -.3em -.3em); text-shadow: 0 0 0 transparent; }
 }
 
 /* 5. numbers land with a small pop */
