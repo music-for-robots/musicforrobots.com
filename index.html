@@ -8,6 +8,7 @@
 <meta name="theme-color" content="#060c14">
 <link rel="icon" type="image/png" href="assets/sprites/eagle.png">
 <link rel="canonical" href="https://musicforrobots.com/">
+<script>if (!matchMedia("(prefers-reduced-motion: reduce)").matches) document.documentElement.classList.add("js");</script>
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://musicforrobots.com/">
@@ -251,6 +252,59 @@ footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; g
 footer a { color: var(--muted); text-decoration: none; }
 footer a:hover { color: var(--accent); }
 
+
+/* ── JUICE ─────────────────────────────────────────── */
+/* 1. operative cards: hover plays an expression strip and swaps the idle for the run */
+.op { transition: border-color .15s; }
+.op:hover { border-color: var(--accent); }
+.op-stage .portrait-x {
+  position: absolute; top: 12px; left: 12px; width: 64px; height: 64px; border: 1px solid var(--accent-dim);
+  background: var(--x) 0 0 / calc(var(--pn) * 64px) 64px no-repeat; image-rendering: pixelated; opacity: 0;
+}
+.op:hover .portrait-x { opacity: 1; animation: pstrip calc(var(--pn) * 85ms) steps(var(--pn1)) forwards; }
+@keyframes pstrip { to { background-position-x: calc(var(--pn1) * -64px); } }
+.op:hover .op-stage .sprite {
+  /* !important: the idle values are inline on the element and would otherwise win */
+  --img: var(--rimg) !important; --w: var(--rw) !important; --h: var(--rh) !important; --n: var(--rn) !important;
+  animation-name: strip-run; animation-duration: .72s;
+}
+@keyframes strip-run { to { background-position-x: calc(var(--w) * var(--n) * var(--s) * -1px); } }
+
+/* 4. section headers wipe in on a stepped scanline once the kicker has started typing */
+.js section h2 { clip-path: inset(0 0 100% 0); }
+.js section h2.booted { animation: boot .42s steps(7) forwards; }
+@keyframes boot {
+  0% { clip-path: inset(0 0 100% 0); text-shadow: 0 0 0 transparent; }
+  70% { text-shadow: 0 0 18px rgb(0 229 204 / .7); }
+  100% { clip-path: inset(0 0 0 0); text-shadow: 0 0 0 transparent; }
+}
+
+/* 5. numbers land with a small pop */
+.feat .num.landed { animation: land .24s steps(3); }
+@keyframes land { from { transform: scale(1.18); } }
+.feat .num { display: inline-block; transform-origin: left bottom; }
+
+/* 6. buttons: a hard drop shadow the press closes, and a light sweep on the primary */
+.btn { position: relative; overflow: hidden; box-shadow: 4px 4px 0 rgb(0 0 0 / .6); transition: background-color .12s, color .12s, transform .05s, box-shadow .05s; }
+.btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 rgb(0 0 0 / 0); }
+.btn:not(.ghost)::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgb(255 255 255 / .6), transparent);
+  animation: sweep 5s steps(30) infinite;
+}
+@keyframes sweep { 0%, 72% { left: -60%; } 100% { left: 130%; } }
+
+/* 7. the game's own reticle (default Cross, teal) over the action */
+.hero, .dsco-demo canvas { cursor: url("assets/reticle.png") 16 16, crosshair; }
+.hero a { cursor: pointer; }
+
+/* 8. item cards: rarity glow comes up, the icon bobs like a floor pickup */
+.item { transition: border-color .15s, box-shadow .15s; }
+.item:hover { border-color: color-mix(in srgb, var(--r) 65%, transparent); box-shadow: 0 0 26px color-mix(in srgb, var(--r) 22%, transparent); }
+.item:hover .icon { background: radial-gradient(circle, color-mix(in srgb, var(--r) 45%, transparent), transparent 70%); }
+.item:hover .icon img { animation: pickup-bob 1.1s steps(6) infinite; }
+@keyframes pickup-bob { 50% { translate: 0 -5px; } }
+
 @media (max-width: 960px) {
   .ops { grid-template-columns: repeat(2, 1fr); }
   .contract, .dsco-grid { grid-template-columns: minmax(0, 1fr); }
@@ -334,7 +388,8 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
         <div class="op-head"><span>OP-01</span><span>KOWALSKI</span></div>
         <div class="op-stage">
           <img class="portrait" src="assets/sprites/Grunt.png" alt="Grunt portrait" width="64" height="64">
-          <div class="sprite" role="img" aria-label="Grunt idle" style="--w:108;--h:81;--n:9;--s:2;--t:1s;--img:url(assets/sprites/grunt_idle_parallel.png)"></div>
+          <span class="portrait-x" aria-hidden="true" style="--x:url(assets/sprites/Grunt_yawn.png);--pn:17;--pn1:16"></span>
+          <div class="sprite" role="img" aria-label="Grunt idle" style="--w:108;--h:81;--n:9;--s:2;--t:1s;--img:url(assets/sprites/grunt_idle_parallel.png);--rimg:url(assets/sprites/grunt_run_parallel.png);--rw:108;--rh:82;--rn:9"></div>
         </div>
         <div class="op-body">
           <h3>GRUNT</h3>
@@ -347,7 +402,8 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
         <div class="op-head"><span>OP-02</span><span>ODUYA</span></div>
         <div class="op-stage">
           <img class="portrait" src="assets/sprites/Tank.png" alt="Oduya portrait" width="64" height="64">
-          <div class="sprite" role="img" aria-label="Tank idle" style="--w:124;--h:93;--n:9;--s:2;--t:1s;--img:url(assets/sprites/tank_idle.png)"></div>
+          <span class="portrait-x" aria-hidden="true" style="--x:url(assets/sprites/Tank_laugh.png);--pn:17;--pn1:16"></span>
+          <div class="sprite" role="img" aria-label="Tank idle" style="--w:124;--h:93;--n:9;--s:2;--t:1s;--img:url(assets/sprites/tank_idle.png);--rimg:url(assets/sprites/tank_run.png);--rw:124;--rh:94;--rn:9"></div>
         </div>
         <div class="op-body">
           <h3>TANK</h3>
@@ -360,7 +416,8 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
         <div class="op-head"><span>OP-03</span><span>VASQUEZ</span></div>
         <div class="op-stage">
           <img class="portrait" src="assets/sprites/Doc.png" alt="Vasquez portrait" width="64" height="64">
-          <div class="sprite" role="img" aria-label="Doc idle" style="--w:120;--h:90;--n:9;--s:2;--t:1s;--img:url(assets/sprites/doc_idle_parallel.png)"></div>
+          <span class="portrait-x" aria-hidden="true" style="--x:url(assets/sprites/Doc_reading.png);--pn:16;--pn1:15"></span>
+          <div class="sprite" role="img" aria-label="Doc idle" style="--w:120;--h:90;--n:9;--s:2;--t:1s;--img:url(assets/sprites/doc_idle_parallel.png);--rimg:url(assets/sprites/doc_run_parallel.png);--rw:120;--rh:90;--rn:9"></div>
         </div>
         <div class="op-body">
           <h3>DOC</h3>
@@ -373,7 +430,7 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
         <div class="op-head"><span>OP-04</span><span>[REDACTED]</span></div>
         <div class="op-stage">
           <img class="portrait" src="assets/sprites/Wraith.png" alt="Wraith portrait" width="64" height="64">
-          <div class="sprite" role="img" aria-label="Wraith idle" style="--w:85;--h:71;--n:7;--s:2.4;--t:.9s;--img:url(assets/sprites/wraith_idle_parallel.png)"></div>
+          <div class="sprite" role="img" aria-label="Wraith idle" style="--w:85;--h:71;--n:7;--s:2.4;--t:.9s;--img:url(assets/sprites/wraith_idle_parallel.png);--rimg:url(assets/sprites/wraith_run_parallel.png);--rw:85;--rh:71;--rn:9"></div>
         </div>
         <div class="op-body">
           <h3>WRAITH</h3>
@@ -715,6 +772,7 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
 </footer>
 
 <script src="assets/dsco-demo.js" defer></script>
+<script src="assets/juice.js" defer></script>
 <script>
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
     const v = document.querySelector(".hero-video");

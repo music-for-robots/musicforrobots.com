@@ -59,6 +59,7 @@
       ammo: WEAPONS[wi].ammo, cd: 0.25, charge: 0, cycleT: 99, flashT: 99, gruntCd: 0.1, gruntFlashT: 99,
       spawnCd: 0, gun: { ...FLOOR_GUN, a: 0, alpha: 1 },
       chaffs: S ? S.chaffs : [], bullets: [], beams: [], booms: S ? S.booms : [],
+      pops: S ? S.pops : [], shake: 0,
     };
   }
   reset(0);
@@ -80,20 +81,25 @@
     return null;
   }
 
-  function damage(c, n) {
+  // `shown` is the number the popup prints: a plausible in-game hit, not the
+  // demo's toy HP (a Chaff here dies to eight of anything).
+  function damage(c, n, shown) {
     c.hp -= n; c.hit = 0.08;
-    if (c.hp <= 0) S.booms.push({ x: c.x + 44, y: FLOOR - 26, t: 0 });
+    const kill = c.hp <= 0;
+    S.pops.push({ x: c.x + 44 + (Math.random() - 0.5) * 16, y: FLOOR - 60, t: 0,
+      v: Math.round(shown * (0.9 + Math.random() * 0.2)), big: kill || shown >= 100 });
+    if (kill) { S.booms.push({ x: c.x + 44, y: FLOOR - 26, t: 0 }); S.shake = 0.14; }
   }
 
   function fireDsco(muzzle, a) {
     const w = S.w;
     if (w.kind === "bullet") {
       const j = (Math.random() - 0.5) * 0.06;
-      S.bullets.push({ x: muzzle.x, y: muzzle.y, vx: Math.cos(a + j) * 620, vy: Math.sin(a + j) * 620, c: "#ffd35a", len: 9, w: 2, dmg: 1 });
+      S.bullets.push({ x: muzzle.x, y: muzzle.y, vx: Math.cos(a + j) * 620, vy: Math.sin(a + j) * 620, c: "#ffd35a", len: 9, w: 2, dmg: 1, shown: 12 });
     } else if (w.kind === "spread") {
       for (let i = -2; i <= 2; i++) {
         const b = a + i * 0.11 + (Math.random() - 0.5) * 0.04;
-        S.bullets.push({ x: muzzle.x, y: muzzle.y, vx: Math.cos(b) * 520, vy: Math.sin(b) * 520, c: "#ff8a4a", len: 5, w: 2, dmg: 1 });
+        S.bullets.push({ x: muzzle.x, y: muzzle.y, vx: Math.cos(b) * 520, vy: Math.sin(b) * 520, c: "#ff8a4a", len: 5, w: 2, dmg: 1, shown: 9 });
       }
     } else {
       // hitscan: everything along the ray goes
@@ -103,7 +109,7 @@
         if (c.hp <= 0) continue;
         const px = c.x + 44 - muzzle.x, py = FLOOR - 26 - muzzle.y;
         const along = px * dx + py * dy, off = Math.abs(px * dy - py * dx);
-        if (along > 0 && off < 22) damage(c, 99);
+        if (along > 0 && off < 22) damage(c, 99, 180);
       }
       S.beams.push({ x1: muzzle.x, y1: muzzle.y, x2, y2, t: 0 });
     }
@@ -143,14 +149,14 @@
     S.gruntCd -= dt;
     const target = S.chaffs.some((c) => c.hp > 0 && c.x < W - 20);
     if (target && S.gruntCd <= 0) {
-      S.bullets.push({ x: GRUNT.tipX + 4, y: GRUNT.tipY, vx: 700, vy: 0, c: "#7ffcf0", len: 10, w: 2, dmg: 1 });
+      S.bullets.push({ x: GRUNT.tipX + 4, y: GRUNT.tipY, vx: 700, vy: 0, c: "#7ffcf0", len: 10, w: 2, dmg: 1, shown: 14 });
       S.gruntCd = 0.34; S.gruntFlashT = 0;
     }
 
     for (const b of S.bullets) {
       b.x += b.vx * dt; b.y += b.vy * dt;
       const c = hitTest(b.x, b.y);
-      if (c) { damage(c, b.dmg); b.dead = true; }
+      if (c) { damage(c, b.dmg, b.shown); b.dead = true; }
       if (b.x > W + 20 || b.y > FLOOR || b.y < -20) b.dead = true;
     }
     S.bullets = S.bullets.filter((b) => !b.dead);
@@ -163,6 +169,9 @@
     S.beams = S.beams.filter((b) => b.t < 0.35);
     for (const b of S.booms) b.t += dt;
     S.booms = S.booms.filter((b) => b.t < 0.4);
+    for (const q of S.pops) { q.t += dt; q.y -= 26 * dt; }
+    S.pops = S.pops.filter((q) => q.t < 0.65);
+    S.shake = Math.max(0, S.shake - dt);
     S.cycleT += dt; S.flashT += dt; S.gruntFlashT += dt;
   }
 
@@ -263,12 +272,32 @@
     }
   }
 
+  function drawPops() {
+    ctx.textAlign = "center"; ctx.textBaseline = "alphabetic";
+    for (const q of S.pops) {
+      const a = q.t < 0.45 ? 1 : 1 - (q.t - 0.45) / 0.2;
+      const x = Math.round(q.x), y = Math.round(q.y);
+      ctx.globalAlpha = Math.max(0, a);
+      ctx.font = q.big ? "16px WARDEN, monospace" : "11px WARDEN, monospace";
+      ctx.fillStyle = "#050a10";
+      for (const [ox, oy] of [[-1, 0], [1, 0], [0, -1], [0, 1]]) ctx.fillText(q.v, x + ox, y + oy);
+      ctx.fillStyle = q.big ? "#ffdc50" : "#f0faff";
+      ctx.fillText(q.v, x, y);
+    }
+    ctx.globalAlpha = 1;
+  }
+
   function draw() {
     ctx.imageSmoothingEnabled = false;
+    ctx.fillStyle = "#081018"; ctx.fillRect(0, 0, W, H);   // under the shake offset
+    ctx.save();
+    // kill punch: a couple of frames of whole-pixel jitter
+    if (S.shake > 0) ctx.translate(Math.round((Math.random() - 0.5) * 4), Math.round((Math.random() - 0.5) * 4));
     drawBg(); drawFloorGlow();
     frame(IMG.grunt, Math.floor(S.time * 9) % 9, 108, GRUNT.x, GRUNT.y);
     if (S.gruntFlashT < 0.08) frame(IMG.m90, Math.floor((S.gruntFlashT / 0.08) * 4), 48, GRUNT.tipX - 18, GRUNT.tipY - 24);
-    drawChaffs(); drawBeam(); drawDsco(); drawGun(); drawShots();
+    drawChaffs(); drawBeam(); drawDsco(); drawGun(); drawShots(); drawPops();
+    ctx.restore();
   }
 
   // ── HUD ─────────────────────────────────────────────
