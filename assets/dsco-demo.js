@@ -155,7 +155,7 @@
     }
     S.bullets = S.bullets.filter((b) => !b.dead);
     for (const c of S.chaffs) {
-      c.f += dt * 12; c.hit -= dt;
+      c.f += dt * 10; c.hit -= dt;
       if (c.hp > 0 && c.x > 150) c.x -= 62 * dt;
     }
     S.chaffs = S.chaffs.filter((c) => c.hp > 0);
@@ -232,10 +232,13 @@
 
   function drawChaffs() {
     for (const c of S.chaffs) {
-      frame(IMG.chaff, Math.floor(c.f) % 9, 92, Math.round(c.x), FLOOR - 69);
+      // chaff_run.png's cycle is authored backwards (the planted foot slides
+      // forward across frames 0-3 and 5-8), so it plays in reverse here.
+      const fi = 8 - (Math.floor(c.f) % 9);
+      frame(IMG.chaff, fi, 92, Math.round(c.x), FLOOR - 69);
       if (c.hit > 0) {
         ctx.save(); ctx.globalCompositeOperation = "lighter"; ctx.globalAlpha = 0.6;
-        frame(IMG.chaff, Math.floor(c.f) % 9, 92, Math.round(c.x), FLOOR - 69); ctx.restore();
+        frame(IMG.chaff, fi, 92, Math.round(c.x), FLOOR - 69); ctx.restore();
       }
     }
   }
