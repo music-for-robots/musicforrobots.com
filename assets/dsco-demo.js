@@ -18,15 +18,28 @@
     m90: D("muzzle_m90"),
   };
 
+  // Placement is the game's own, at its 32 px/unit: DscoView holds the gun's
+  // centre FrontOffset = 1.6 u out along the aim, and the muzzle (along, perp)
+  // is GameManager.DscoMuzzleOffset x 32. flashPivot is DscoView.MuzzleAnchor
+  // in cell px, measured from the TOP (Unity's is from the bottom).
   // cycN = frames in the held-gun strip (48 px cells).
+  const HOLD = 51.2;
   const WEAPONS = [
     { name: "SCRAP SMG", floor: D("scrap_smg"), cyc: D("scrap_smg_cycle"), cycN: 5, cycSec: 0.08,
-      flash: D("muzzle_scrap_smg"), ammo: 28, rate: 0.085, kind: "bullet" },
+      flash: D("muzzle_scrap_smg"), flashPivot: [16.5, 24.5], muzzle: [73.2, 7.5],
+      ammo: 28, rate: 0.085, kind: "bullet" },
     { name: "AUTO-SHOTGUN", floor: D("auto_shotgun"), cyc: D("auto_shotgun_cycle"), cycN: 7, cycSec: 0.45,
-      flash: D("muzzle_auto_shotgun"), ammo: 6, rate: 0.55, kind: "spread" },
+      flash: D("muzzle_auto_shotgun"), flashPivot: [2.5, 22], muzzle: [73.2, 7.5],
+      ammo: 6, rate: 0.55, kind: "spread" },
     { name: "XC-7 PLASMA LANCE", floor: D("railgun"), cyc: D("railgun_cycle"), cycN: 9, cycSec: 0,
-      flash: null, ammo: 3, rate: 0.35, charge: 0.75, kind: "lance" },
+      flash: null, muzzle: [71.7, 1.5], ammo: 3, rate: 0.35, charge: 0.75, kind: "lance" },
   ];
+
+  // along the aim, then "up" off the barrel (canvas y runs down)
+  const offset = (p, a, along, perp) => ({
+    x: p.x + Math.cos(a) * along + Math.sin(a) * perp,
+    y: p.y + Math.sin(a) * along - Math.cos(a) * perp,
+  });
 
   const hudName = document.getElementById("dsco-hud-name");
   const hudAmmo = document.getElementById("dsco-hud-ammo");
@@ -98,7 +111,7 @@
   function update(dt) {
     S.time += dt; S.t += dt;
     const p = dscoCenter();
-    const hold = () => { const a = aimFrom(p); return { x: p.x + Math.cos(a) * 20, y: p.y + 6 + Math.sin(a) * 20, a }; };
+    const hold = () => { const a = aimFrom(p); return { ...offset(p, a, HOLD, 0), a }; };
 
     if (S.phase === "floor") {
       S.gun.y = FLOOR_GUN.y + Math.sin(S.time * 4) * 2;
@@ -109,7 +122,7 @@
       if (k >= 1) { S.phase = "fire"; S.t = 0; spawnChaff(W - 20); spawnChaff(W + 50); S.spawnCd = 1.2; }
     } else if (S.phase === "fire") {
       const h = hold(); Object.assign(S.gun, h);
-      const muzzle = { x: h.x + Math.cos(h.a) * 22, y: h.y + Math.sin(h.a) * 22 };
+      const muzzle = offset(p, h.a, S.w.muzzle[0], S.w.muzzle[1]);
       S.spawnCd -= dt;
       if (S.spawnCd <= 0 && S.ammo > 0) { spawnChaff(); S.spawnCd = S.w.kind === "bullet" ? 0.7 : 1.3; }
       S.cd -= dt;
@@ -185,8 +198,13 @@
     } else if (w.floor.complete) {
       ctx.drawImage(w.floor, -Math.round(w.floor.naturalWidth / 2), -Math.round(w.floor.naturalHeight / 2));
     }
-    if (S.phase === "fire" && w.flash && S.flashT < 0.07) frame(w.flash, Math.floor((S.flashT / 0.07) * 4), 48, 22 - 20, -24);
     ctx.restore();
+    if (S.phase === "fire" && w.flash && S.flashT < 0.07) {
+      const m = offset(dscoCenter(), g.a, w.muzzle[0], w.muzzle[1]);
+      ctx.save(); ctx.translate(Math.round(m.x), Math.round(m.y)); ctx.rotate(g.a);
+      frame(w.flash, Math.floor((S.flashT / 0.07) * 4), 48, -w.flashPivot[0], -w.flashPivot[1]);
+      ctx.restore();
+    }
   }
 
   function drawFloorGlow() {
@@ -199,7 +217,8 @@
 
   function drawBeam() {
     if (S.phase !== "beam") return;
-    const p = dscoCenter(), g = S.gun;
+    const c = dscoCenter(), p = offset(c, aimFrom(c), HOLD, 0), g = S.gun;
+    if (Math.hypot(g.x - p.x, g.y - p.y) < 2) return;
     const dx = g.x - p.x, dy = g.y - p.y, L = Math.hypot(dx, dy) || 1, nx = -dy / L, ny = dx / L;
     const a = 0.35 + 0.2 * Math.sin(S.time * 40);
     ctx.fillStyle = `rgba(0,229,204,${a})`;
