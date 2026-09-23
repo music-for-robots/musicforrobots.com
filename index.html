@@ -63,18 +63,17 @@ body::after {
   position: relative; min-height: 100svh; display: flex; flex-direction: column;
   justify-content: center; overflow: hidden; isolation: isolate;
 }
-.hero-bg {
-  position: absolute; inset: 0; z-index: -2;
-  background: url("assets/sprites/zone1.png") center 70% / cover no-repeat;
-  image-rendering: pixelated;
+.hero-video {
+  position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%;
+  object-fit: cover; background: var(--bg) url("assets/video/hero-poster.jpg") center / cover no-repeat;
 }
 .hero::before {
   content: ""; position: absolute; inset: 0; z-index: -1;
   background:
-    linear-gradient(to bottom, rgb(6 12 20 / .55) 0%, rgb(6 12 20 / .15) 35%, rgb(6 12 20 / .35) 70%, var(--bg) 100%),
-    linear-gradient(to right, rgb(6 12 20 / .7), transparent 60%);
+    linear-gradient(to bottom, rgb(6 12 20 / .45) 0%, transparent 30%, transparent 70%, var(--bg) 100%),
+    linear-gradient(to right, rgb(6 12 20 / .88), rgb(6 12 20 / .45) 55%, rgb(6 12 20 / .05));
 }
-.hero-inner { padding-top: 12vh; padding-bottom: 22vh; }
+.hero-inner { padding-top: 10vh; padding-bottom: 14vh; }
 .stamp {
   display: inline-block; font-size: 15px; letter-spacing: 0; color: var(--accent);
   border: 1px solid var(--accent-dim); background: rgb(6 12 20 / .6);
@@ -105,8 +104,8 @@ h1 span { display: block; color: var(--accent); }
 .meta-line { margin-top: 18px; font-size: 15px; color: var(--muted); }
 .meta-line b { color: var(--scrip); font-weight: normal; }
 
-/* the running squad along the bottom of the hero */
-.parade { position: absolute; left: 0; right: 0; bottom: 6vh; height: 164px; pointer-events: none; }
+/* the running squad along the bottom of the Next Fest band */
+.parade { position: absolute; left: 0; right: 0; bottom: 18px; height: 164px; pointer-events: none; }
 .runner {
   position: absolute; bottom: 0; left: 0;
   animation: cross 16s linear infinite;
@@ -202,8 +201,16 @@ p { margin: 0 0 16px; }
   font-size: 13px; color: var(--alert); background: rgb(6 12 20 / .85); border: 1px solid var(--alert); padding: 2px 8px; white-space: nowrap;
 }
 
-/* demo / wishlist */
-.cta-sec { text-align: center; }
+/* demo / wishlist: zone 1 backdrop with the squad running along the road */
+.cta-sec { text-align: center; position: relative; overflow: hidden; isolation: isolate; padding-bottom: 240px; }
+.cta-sec::before {
+  content: ""; position: absolute; inset: 0; z-index: -2;
+  background: url("assets/sprites/zone1.png") center bottom / cover no-repeat; image-rendering: pixelated;
+}
+.cta-sec::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: linear-gradient(to bottom, var(--bg) 0%, rgb(6 12 20 / .82) 22%, rgb(6 12 20 / .55) 70%, rgb(6 12 20 / .25) 100%);
+}
 .cta-sec .prose { margin: 0 auto 32px; }
 .cta-sec .ctas { justify-content: center; }
 .widget { margin: 40px auto 0; max-width: 646px; }
@@ -238,7 +245,10 @@ footer a:hover { color: var(--accent); }
 <body>
 
 <header class="hero">
-  <div class="hero-bg" role="img" aria-label="Zone 1: an industrial city skyline at dusk"></div>
+  <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/video/hero-poster.jpg" aria-hidden="true">
+    <source src="assets/video/hero-720.mp4" type="video/mp4" media="(max-width: 900px)">
+    <source src="assets/video/hero-1080.mp4" type="video/mp4">
+  </video>
   <div class="wrap hero-inner">
     <div class="stamp">WARDEN CONTRACT: ACTIVE<span class="blink">_</span></div>
     <h1>TROUBLE<span>SHOOTERS</span></h1>
@@ -253,12 +263,6 @@ footer a:hover { color: var(--accent); }
     <p class="meta-line">Free demo in <b>Steam Next Fest, Oct 19–26</b> · Full release Q1 2027 · PC</p>
   </div>
 
-  <div class="parade" aria-hidden="true">
-    <div class="runner"><div class="squad">
-      <div class="sprite dsco" style="--w:84;--h:84;--n:9;--s:1.4;--t:.9s;--img:url(assets/sprites/dsco_idle.png)"></div>
-      <div class="sprite" style="--w:108;--h:82;--n:9;--s:2;--t:.72s;--img:url(assets/sprites/grunt_run_parallel.png)"></div>
-    </div></div>
-  </div>
 </header>
 
 <main>
@@ -415,6 +419,13 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
       <iframe src="https://store.steampowered.com/widget/4770300/" title="TROUBLE SHOOTERS on Steam" loading="lazy"></iframe>
     </div>
   </div>
+  <div class="parade" aria-hidden="true">
+    <div class="runner"><div class="squad">
+      <div class="sprite dsco" style="--w:84;--h:84;--n:9;--s:1.4;--t:.9s;--img:url(assets/sprites/dsco_idle.png)"></div>
+      <div class="sprite" style="--w:108;--h:82;--n:9;--s:2;--t:.72s;--img:url(assets/sprites/grunt_run_parallel.png)"></div>
+    </div></div>
+  </div>
+
 </section>
 
 </main>
@@ -426,5 +437,11 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
   </div>
 </footer>
 
+<script>
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const v = document.querySelector(".hero-video");
+    v.removeAttribute("autoplay"); v.pause();
+  }
+</script>
 </body>
 </html>
