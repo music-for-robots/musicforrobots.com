@@ -105,6 +105,19 @@ h1 span { display: block; color: var(--accent); }
 .meta-line { margin-top: 18px; font-size: 15px; color: var(--muted); }
 .meta-line b { color: var(--scrip); font-weight: normal; }
 
+/* demo banner across the top of the hero; its copy follows the release calendar (assets/demo-state.js) */
+.fest-bar {
+  position: absolute; top: 0; left: 0; right: 0; z-index: 2;
+  display: block; padding: 9px var(--gutter); text-align: center; text-decoration: none;
+  font-size: 15px; color: var(--text); background: rgb(6 12 20 / .82);
+  border-bottom: 1px solid var(--accent-dim); transition: background-color .12s;
+}
+.fest-bar[hidden] { display: none; }
+.fest-bar:hover { background: rgb(0 229 204 / .16); }
+.fest-bar b { color: var(--accent); font-weight: normal; }
+.fest-bar .go { color: var(--accent); white-space: nowrap; }
+.btn[hidden] { display: none; }
+
 /* the running squad along the bottom of the Next Fest band */
 .parade { position: absolute; left: 0; right: 0; bottom: 18px; height: 164px; pointer-events: none; }
 .runner {
@@ -221,6 +234,21 @@ p { margin: 0 0 16px; }
 .tiers span { font-size: 13px; padding: 2px 8px; border: 1px solid var(--accent-dim); color: var(--muted); }
 .tiers span:last-child { border-color: var(--alert); color: var(--alert); }
 
+/* bosses: each card's media is a still for now; swap the <img> for a
+   <video autoplay muted loop playsinline poster="..."> once the clips are cut */
+.bosses { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 40px; }
+.boss { border: 1px solid var(--accent-dim); background: var(--panel); display: flex; flex-direction: column; transition: border-color .15s; }
+.boss:hover { border-color: var(--alert); }
+.boss-head { display: flex; justify-content: space-between; padding: 6px 12px; font-size: 13px; color: var(--dim); border-bottom: 1px solid var(--accent-faint); }
+.boss-head .threat { color: var(--alert); }
+.boss-media { margin: 0; aspect-ratio: 16 / 9; overflow: hidden; border-bottom: 1px solid var(--accent-faint); background: var(--bg); }
+.boss-media img, .boss-media video { display: block; width: 100%; height: 100%; object-fit: cover; }
+.boss-body { padding: 18px 18px 22px; }
+.boss h3 { font-family: var(--display); font-weight: 800; font-size: 24px; margin: 0 0 2px; color: var(--title); }
+.boss .role { font-size: 14px; color: var(--alert); margin: 0 0 12px; }
+.boss p { font-size: 16px; color: var(--muted); margin: 0 0 10px; }
+.boss p:last-child { margin-bottom: 0; }
+
 /* zones strip */
 .zones { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 40px; }
 .zones figure { margin: 0; position: relative; border: 1px solid var(--accent-faint); aspect-ratio: 16 / 9; overflow: hidden; }
@@ -312,6 +340,7 @@ footer a:hover { color: var(--accent); }
   .contract, .dsco-grid { grid-template-columns: minmax(0, 1fr); }
   .dsco-foot { grid-template-columns: minmax(0, 1fr); }
   .zones { grid-template-columns: repeat(2, 1fr); }
+  .bosses { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 600px) {
   body { font-size: 17px; }
@@ -335,6 +364,10 @@ footer a:hover { color: var(--accent); }
 <body>
 
 <header class="hero">
+  <a class="fest-bar" data-show="soon" href="https://store.steampowered.com/app/4770300/?utm_source=musicforrobots&amp;utm_medium=website&amp;utm_campaign=landing_page&amp;utm_content=bar_soon" rel="noopener"><b>FREE DEMO</b> ARRIVES OCTOBER 2 · <span class="go">WISHLIST ON STEAM &#9656;</span></a>
+  <a class="fest-bar" data-show="live" hidden href="https://store.steampowered.com/app/5092600/?utm_source=musicforrobots&amp;utm_medium=website&amp;utm_campaign=landing_page&amp;utm_content=bar_live" rel="noopener"><b>FREE DEMO</b> OUT NOW · <span class="go">PLAY IT ON STEAM &#9656;</span></a>
+  <a class="fest-bar" data-show="fest" hidden href="https://store.steampowered.com/app/5092600/?utm_source=musicforrobots&amp;utm_medium=website&amp;utm_campaign=landing_page&amp;utm_content=bar_fest" rel="noopener"><b>STEAM NEXT FEST</b> IS ON · <span class="go">PLAY THE FREE DEMO &#9656;</span></a>
+  <a class="fest-bar" data-show="after" hidden href="https://store.steampowered.com/app/5092600/?utm_source=musicforrobots&amp;utm_medium=website&amp;utm_campaign=landing_page&amp;utm_content=bar_after" rel="noopener"><b>FREE DEMO</b> ON STEAM · <span class="go">PLAY IT NOW &#9656;</span></a>
   <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="assets/video/hero-poster.jpg" aria-hidden="true">
     <source src="assets/video/hero-720.mp4" type="video/mp4" media="(max-width: 900px)">
     <source src="assets/video/hero-1080.mp4" type="video/mp4">
@@ -348,9 +381,13 @@ footer a:hover { color: var(--accent); }
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 0 0-9.96 9.1l5.36 2.22a2.8 2.8 0 0 1 1.6-.5h.16l2.39-3.46v-.05a3.79 3.79 0 1 1 3.79 3.79h-.09l-3.4 2.43v.13a2.84 2.84 0 0 1-5.62.56L2.4 14.7A10 10 0 1 0 12 2Zm-4.3 15.2-1.23-.51a2.13 2.13 0 1 0 1.17-2.9l1.27.53a1.57 1.57 0 1 1-1.2 2.9Zm9.1-7.64a2.53 2.53 0 1 0-2.52 2.53 2.53 2.53 0 0 0 2.53-2.53Zm-4.42 0a1.9 1.9 0 1 1 1.9 1.9 1.9 1.9 0 0 1-1.9-1.9Z"/></svg>
         WISHLIST ON STEAM
       </a>
-      <a class="btn ghost" href="#demo">PLAY THE DEMO</a>
+      <a class="btn ghost" data-show="soon" href="#demo">FREE DEMO: OCTOBER 2</a>
+      <a class="btn ghost" data-show="live fest after" hidden href="https://store.steampowered.com/app/5092600/?utm_source=musicforrobots&amp;utm_medium=website&amp;utm_campaign=landing_page&amp;utm_content=hero_demo" rel="noopener">PLAY THE FREE DEMO</a>
     </div>
-    <p class="meta-line">Free demo in <b>Steam Next Fest, Oct 19–26</b> · Full release Q1 2027 · PC</p>
+    <p class="meta-line" data-show="soon">Free demo <b>October 2</b> · Steam Next Fest Oct 19–26 · Full release Q1 2027 · PC</p>
+    <p class="meta-line" data-show="live" hidden>Free demo <b>out now</b> · Steam Next Fest Oct 19–26 · Full release Q1 2027 · PC</p>
+    <p class="meta-line" data-show="fest" hidden>Free demo <b>in Steam Next Fest now</b> · Full release Q1 2027 · PC</p>
+    <p class="meta-line" data-show="after" hidden>Free demo <b>out now</b> · Full release Q1 2027 · PC</p>
   </div>
 
 </header>
@@ -509,6 +546,38 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
       <figure class="redacted"><img src="assets/sprites/zone4.png" alt="Zone 4 backdrop" loading="lazy"><figcaption>ZONE 04</figcaption></figure>
     </div>
     <p class="muted" style="margin-top:16px;font-size:15px">Also: full controller support with rebinding, an uncapped framerate, and a WARDEN terminal that answers when you type at it.</p>
+  </div>
+</section>
+
+<section id="bosses">
+  <div class="wrap">
+    <p class="kicker">INCIDENT FILES</p>
+    <h2>Every zone ends in one of these.</h2>
+    <p class="prose muted">Two of the five, both in the free demo. The other three files are sealed.</p>
+
+    <div class="bosses">
+      <article class="boss">
+        <div class="boss-head"><span>ZONE 01</span><span class="threat">HOSTILE</span></div>
+        <figure class="boss-media"><img src="assets/bosses/foremen.jpg" alt="The Foremen: four turrets on a turning ring, one attacking from the top" width="1120" height="630" loading="lazy"></figure>
+        <div class="boss-body">
+          <h3>THE FOREMEN</h3>
+          <p class="role">Four emplacements. One shift.</p>
+          <p>A ring of four gun emplacements, turning on a shared metronome. Only the one at the top is allowed to shoot. The rest wait their turn.</p>
+          <p>Every time one goes down, the others pick up the tempo. The music keeps time with them.</p>
+        </div>
+      </article>
+
+      <article class="boss">
+        <div class="boss-head"><span>ZONE 02</span><span class="threat">HOSTILE</span></div>
+        <figure class="boss-media"><img src="assets/bosses/bloom.jpg" alt="The Bloom: a giant flower pod in an overgrown cavern, surrounded by its brood" width="1120" height="630" loading="lazy"></figure>
+        <div class="boss-body">
+          <h3>THE BLOOM</h3>
+          <p class="role">Sealed. Nesting. Flammable.</p>
+          <p>She stays shut in her pod while her nests throw out a steady supply of offspring. Clear the nests and she comes out to fly, briefly. That is your window.</p>
+          <p>She also does not like fire. Enough of it and she comes out on your schedule instead of hers.</p>
+        </div>
+      </article>
+    </div>
   </div>
 </section>
 
@@ -742,13 +811,14 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
 
 <section class="cta-sec" id="demo">
   <div class="wrap">
-    <p class="kicker">STEAM NEXT FEST · OCT 19–26</p>
+    <p class="kicker"><span data-show="soon">FREE DEMO · OCTOBER 2</span><span data-show="live after" hidden>FREE DEMO · OUT NOW</span><span data-show="fest" hidden>STEAM NEXT FEST · OCT 19–26</span></p>
     <h2>The first two sectors are free.</h2>
     <div class="prose">
       <p>Take Grunt through the opening two zones, stack gear until it stops making sense, and put down two bosses. Solo or with a squad of up to four.</p>
       <p class="muted">The other three operatives' files are in the demo. You just are not cleared for them yet.</p>
     </div>
     <div class="ctas">
+      <a class="btn" data-show="live fest after" hidden href="https://store.steampowered.com/app/5092600/?utm_source=musicforrobots&amp;utm_medium=website&amp;utm_campaign=landing_page&amp;utm_content=demo_section" rel="noopener">PLAY THE FREE DEMO</a>
       <a class="btn" href="https://store.steampowered.com/app/4770300/?utm_source=musicforrobots&amp;utm_medium=website&amp;utm_campaign=landing_page&amp;utm_content=nextfest" rel="noopener">WISHLIST ON STEAM</a>
     </div>
     <div class="widget">
@@ -774,6 +844,7 @@ CONTINGENCY PLAN ..... <span class="muted">NONE ON FILE</span>
   </div>
 </footer>
 
+<script src="assets/demo-state.js" defer></script>
 <script src="assets/dsco-demo.js" defer></script>
 <script src="assets/juice.js" defer></script>
 <script>
