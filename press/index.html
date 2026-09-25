@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TROUBLE SHOOTERS Press Kit</title>
+<meta name="description" content="Press kit for TROUBLE SHOOTERS: fact sheet, descriptions, screenshots, capsule art, and the streaming and monetization policy.">
+<meta name="theme-color" content="#060c14">
+<link rel="icon" type="image/png" href="../assets/sprites/eagle.png">
+<link rel="canonical" href="https://musicforrobots.com/press/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://musicforrobots.com/press/">
+<meta property="og:title" content="TROUBLE SHOOTERS Press Kit">
+<meta property="og:description" content="Fact sheet, descriptions, screenshots and art for TROUBLE SHOOTERS, a 2D roguelite run-and-gun for 1-4 players.">
+<meta property="og:image" content="https://musicforrobots.com/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+@font-face { font-family: "Orbitron"; src: url("../assets/fonts/Orbitron-VariableFont_wght.ttf") format("truetype"); font-weight: 400 900; font-display: swap; }
+@font-face { font-family: "WARDEN"; src: url("../assets/fonts/WARDENTerminalMono.ttf") format("truetype"); font-display: swap; }
+
+:root {
+  --accent: rgb(0 229 204);
+  --accent-bright: rgb(28 252 224);
+  --accent-dim: rgb(0 229 204 / .30);
+  --accent-faint: rgb(0 229 204 / .10);
+  --alert: rgb(255 62 108);
+  --scrip: rgb(255 220 80);
+  --title: rgb(240 250 255);
+  --text: rgb(224 248 252);
+  --muted: rgb(140 185 210);
+  --dim: rgb(90 150 185);
+  --bg: #060c14;
+  --panel: rgb(8 16 28);
+  --mono: "WARDEN", "Consolas", "Courier New", monospace;
+  --display: "Orbitron", "Arial Black", sans-serif;
+  --gutter: clamp(16px, 4vw, 48px);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: var(--mono); font-size: 18px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+img.px { image-rendering: pixelated; }
+a { color: var(--accent); }
+a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 3px; }
+
+body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50;
+  background: repeating-linear-gradient(to bottom, rgb(0 0 0 / .12) 0 1px, transparent 1px 3px);
+}
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 var(--gutter); }
+
+/* ── HEADER ─────────────────────────────────────────── */
+.top { border-bottom: 1px solid var(--accent-faint); padding: 18px 0; font-size: 15px; }
+.top .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.top a { color: var(--muted); text-decoration: none; }
+.top a:hover { color: var(--accent); }
+
+.masthead { padding: clamp(48px, 8vw, 96px) 0 clamp(32px, 5vw, 56px); }
+.stamp {
+  display: inline-block; font-size: 15px; color: var(--accent);
+  border: 1px solid var(--accent-dim); padding: 4px 10px; margin-bottom: 20px;
+}
+h1 {
+  font-family: var(--display); font-weight: 900; color: var(--title);
+  font-size: clamp(38px, 7vw, 84px); line-height: .92; margin: 0 0 20px;
+  letter-spacing: -.01em; text-shadow: 0 4px 0 rgb(0 0 0 / .45), 0 0 40px rgb(0 229 204 / .25);
+}
+h1 span { display: block; color: var(--accent); }
+.lede { max-width: 52ch; font-size: clamp(18px, 2.2vw, 21px); margin: 0 0 28px; }
+
+.ctas { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+.btn {
+  font-family: var(--display); font-weight: 800; font-size: 16px; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px;
+  border: 2px solid var(--accent); color: var(--bg); background: var(--accent);
+  transition: background-color .12s, color .12s;
+}
+.btn:hover { background: var(--accent-bright); }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.ghost:hover { background: var(--accent-faint); }
+.btn small { font-family: var(--mono); font-weight: normal; font-size: 14px; opacity: .8; }
+
+/* ── SECTIONS ───────────────────────────────────────── */
+section { padding: clamp(40px, 6vw, 72px) 0; border-top: 1px solid var(--accent-faint); }
+.kicker { font-size: 15px; color: var(--accent); margin: 0 0 10px; }
+.kicker::before { content: "// "; color: var(--dim); }
+h2 {
+  font-family: var(--display); font-weight: 800; color: var(--title);
+  font-size: clamp(24px, 3.4vw, 36px); line-height: 1.1; margin: 0 0 22px;
+}
+h3 { font-family: var(--display); font-weight: 800; color: var(--title); font-size: 18px; margin: 28px 0 10px; }
+p { margin: 0 0 16px; }
+.prose { max-width: 66ch; }
+.muted { color: var(--muted); }
+ul { margin: 0 0 16px; padding-left: 1.2em; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+b, strong { color: var(--title); }
+
+/* copy blocks: text a writer can lift verbatim */
+.copyblock { position: relative; background: var(--panel); border: 1px solid var(--accent-faint); padding: 20px 22px; margin: 0 0 20px; max-width: 76ch; }
+.copyblock .label { font-size: 13px; color: var(--dim); margin: 0 0 10px; display: flex; justify-content: space-between; gap: 12px; }
+.copyblock p:last-child { margin-bottom: 0; }
+.copy-btn {
+  font: inherit; font-size: 13px; color: var(--accent); background: none;
+  border: 1px solid var(--accent-dim); padding: 2px 10px; cursor: pointer;
+}
+.copy-btn:hover { background: var(--accent-faint); }
+
+/* ── FACT SHEET ─────────────────────────────────────── */
+.facts { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; }
+.facts dl { margin: 0; }
+.facts div { display: grid; grid-template-columns: 11ch 1fr; gap: 16px; padding: 10px 0; border-bottom: 1px dashed var(--accent-faint); }
+.facts dt { color: var(--dim); }
+.facts dd { margin: 0; }
+
+table { border-collapse: collapse; width: 100%; max-width: 76ch; margin: 0 0 16px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 14px 10px 0; border-bottom: 1px dashed var(--accent-faint); }
+th { color: var(--dim); font-weight: normal; }
+
+/* ── MEDIA ──────────────────────────────────────────── */
+.trailer { display: block; position: relative; max-width: 760px; border: 1px solid var(--accent-dim); }
+.trailer img { display: block; width: 100%; height: auto; }
+.trailer .play {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  background: rgb(6 12 20 / .35); font-family: var(--display); font-weight: 800; color: var(--title); font-size: 20px;
+  transition: background-color .12s;
+}
+.trailer:hover .play { background: rgb(6 12 20 / .1); }
+
+.shots { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.shots figure { margin: 0; }
+.shots a { display: block; border: 1px solid var(--accent-faint); }
+.shots a:hover { border-color: var(--accent); }
+.shots img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+.shots figcaption { font-size: 15px; color: var(--muted); padding-top: 8px; }
+
+.art { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-end; }
+.art figure { margin: 0; }
+.art img { display: block; max-width: 100%; height: auto; border: 1px solid var(--accent-faint); }
+.art figcaption { font-size: 15px; color: var(--muted); padding-top: 8px; }
+.portraits img { background: var(--panel); }
+
+
+footer { border-top: 1px solid var(--accent-faint); padding: 28px 0 40px; font-size: 14px; color: var(--dim); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+footer a { color: var(--muted); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+
+@media (max-width: 760px) {
+  .facts { grid-template-columns: 1fr; }
+  .shots { grid-template-columns: 1fr; }
+  .facts div { grid-template-columns: 10ch 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a href="../">&larr; musicforrobots.com</a>
+    <span class="muted">PRESS KIT</span>
+  </div>
+</header>
+
+<main>
+
+<div class="masthead">
+  <div class="wrap">
+    <div class="stamp">WARDEN PUBLIC AFFAIRS // PRESS MATERIALS</div>
+    <h1>TROUBLE<span>SHOOTERS</span></h1>
+    <p class="lede">A 2D roguelite run-and-gun for one to four players. Everything on this page is free to use in coverage, videos and streams.</p>
+    <div class="ctas">
+      <a class="btn" href="trouble-shooters-press-kit.zip" download>DOWNLOAD PRESS KIT <small>(zip, 3.2 MB)</small></a>
+      <a class="btn ghost" href="https://store.steampowered.com/app/4770300/?utm_source=musicforrobots&amp;utm_medium=website&amp;utm_campaign=press_kit&amp;utm_content=masthead" rel="noopener">STEAM PAGE</a>
+    </div>
+  </div>
+</div>
+
+<section id="facts">
+  <div class="wrap">
+    <p class="kicker">FACT SHEET</p>
+    <h2>The short version.</h2>
+    <div class="facts">
+      <dl>
+        <div><dt>Title</dt><dd>TROUBLE SHOOTERS</dd></div>
+        <div><dt>Developer</dt><dd>hollywise.</dd></div>
+        <div><dt>Publisher</dt><dd>Music For Robots</dd></div>
+        <div><dt>Release</dt><dd>Q1 2027 (planned)</dd></div>
+        <div><dt>Demo</dt><dd>Steam Next Fest, October 19–26, 2026</dd></div>
+        <div><dt>Platform</dt><dd>Windows PC, via Steam</dd></div>
+      </dl>
+      <dl>
+        <div><dt>Genre</dt><dd>2D roguelite run-and-gun</dd></div>
+        <div><dt>Players</dt><dd>1–4. Online co-op through Steam, plus LAN co-op</dd></div>
+        <div><dt>Controls</dt><dd>Full controller support with rebinding; keyboard and mouse</dd></div>
+        <div><dt>Language</dt><dd>English</dd></div>
+        <div><dt>Price</dt><dd>To be announced</dd></div>
+        <div><dt>Contact</dt><dd><a href="mailto:press@musicforrobots.com">press@musicforrobots.com</a></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section id="description">
+  <div class="wrap">
+    <p class="kicker">DESCRIPTION</p>
+    <h2>In a sentence, and in a few paragraphs.</h2>
+
+    <div class="copyblock">
+      <p class="label"><span>ONE LINE</span><button class="copy-btn" type="button">COPY</button></p>
+      <p>Four WARDEN contractors against an alien incursion: a 2D roguelite run-and-gun with stacking gear, five bosses that fill the screen, and 2–4 player co-op.</p>
+    </div>
+
+    <div class="copyblock">
+      <p class="label"><span>SHORT</span><button class="copy-btn" type="button">COPY</button></p>
+      <p>Four WARDEN contractors against an alien incursion. A 2D roguelite run-and-gun: procedurally assembled zones, stacking gear that gets out of hand, and five bosses that fill the screen. Solo or 2–4 player co-op.</p>
+    </div>
+
+    <div class="copyblock">
+      <p class="label"><span>LONG</span><button class="copy-btn" type="button">COPY</button></p>
+      <p>Something came through the Rift. WARDEN has four operatives on the payroll and an equipment requisition budget. That is the whole plan.</p>
+      <p>TROUBLE SHOOTERS is a 2D roguelite run-and-gun. Every run assembles a fresh chain of rooms, hands you whatever the drop tables felt like handing you, and asks you to make it work. The aliens are numerous, expressive, and extremely committed. So are you.</p>
+      <p>Each of the four operatives carries a permanent weapon that never runs dry. Field weapons go to the DSCO, a support drone that follows you, holds whatever you picked up, and fires when you fire until the ammunition runs out. Over sixty stacking items multiply rather than replace one another, so a run that begins with a slightly faster reload can end with a screen that is no longer strictly legible.</p>
+      <p>Every zone ends with a boss that takes up the whole screen. Bring up to three friends: invites go through Steam, and a death is not the end of the run while a teammate is still standing.</p>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <p class="kicker">FEATURES</p>
+    <h2>What is in the box.</h2>
+    <ul class="prose">
+      <li><b>Four operatives.</b> Grunt (rifle, no bad matchups), Oduya "Tank" (pile-driver fists), Vasquez "Doc" (combat medic with a drone escort) and Wraith (thrown daggers, highest damage, thinnest skin).</li>
+      <li><b>The DSCO.</b> A drone that carries the field weapon you pick up and fires it on your trigger. You are never unarmed and never stuck with a bad pickup.</li>
+      <li><b>60+ stacking items</b>, plus consumables for when the plan stops working.</li>
+      <li><b>Five bosses across four zones.</b> The first is the Foremen: four industrial emplacements working a shared metronome, where the rhythm tightens every time one of them goes down.</li>
+      <li><b>2–4 player co-op.</b> Steam invites with no lobby codes or port forwarding. A downed operative redeploys at the next zone boundary; the run ends when the last one goes down.</li>
+      <li><b>Four operation tiers</b>, from Easy to Invaders Must Die, each unlocked by finishing the one before it.</li>
+      <li><b>Full controller support</b> with rebinding, an uncapped framerate, and a WARDEN terminal that answers when you type at it.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="demo">
+  <div class="wrap">
+    <p class="kicker">THE DEMO</p>
+    <h2>Steam Next Fest, October 19–26.</h2>
+    <p class="prose">The free demo covers the opening of the game. If you are writing about or streaming the demo specifically, this is what it contains:</p>
+    <table>
+      <tr><th>Zones</th><td>The first two of four</td></tr>
+      <tr><th>Bosses</th><td>The Foremen and the Bloom</td></tr>
+      <tr><th>Operatives</th><td>Grunt to start. Clearing the demo once makes all four deployable.</td></tr>
+      <tr><th>Difficulty</th><td>Easy (the three higher tiers are in the full game)</td></tr>
+      <tr><th>Co-op</th><td>Full 2–4 player online co-op</td></tr>
+    </table>
+    <p><a href="https://store.steampowered.com/app/5092600/?utm_source=musicforrobots&amp;utm_medium=website&amp;utm_campaign=press_kit&amp;utm_content=demo" rel="noopener">Demo page on Steam</a></p>
+  </div>
+</section>
+
+<section id="media">
+  <div class="wrap">
+    <p class="kicker">TRAILER</p>
+    <h2>Trailer.</h2>
+    <a class="trailer" href="https://store.steampowered.com/app/4770300/?utm_source=musicforrobots&amp;utm_medium=website&amp;utm_campaign=press_kit&amp;utm_content=trailer" rel="noopener">
+      <img src="img/screenshot_08.jpg" alt="TROUBLE SHOOTERS trailer" width="1920" height="1080" loading="lazy">
+      <span class="play">&#9654; WATCH ON STEAM</span>
+    </a>
+    <p class="muted" style="margin-top:12px">A downloadable copy of the trailer is available on request.</p>
+
+    <h3 id="screenshots">Screenshots</h3>
+    <p class="muted">1920×1080. Click for the full-size image; all eight are in the zip.</p>
+    <div class="shots">
+      <figure><a href="img/screenshot_01.jpg"><img src="img/thumb_01.jpg" alt="The Foremen boss fight: a ring of four turrets around a rotating platform" width="960" height="540" loading="lazy"></a><figcaption>The Foremen: four emplacements on a turning ring.</figcaption></figure>
+      <figure><a href="img/screenshot_02.jpg"><img src="img/thumb_02.jpg" alt="The Bloom boss fight in an overgrown cavern" width="960" height="540" loading="lazy"></a><figcaption>The Bloom, and the wildlife it keeps.</figcaption></figure>
+      <figure><a href="img/screenshot_03.jpg"><img src="img/thumb_03.jpg" alt="A boss tank firing across a burning red arena" width="960" height="540" loading="lazy"></a><figcaption>The Colonel, who brought a tank.</figcaption></figure>
+      <figure><a href="img/screenshot_04.jpg"><img src="img/thumb_04.jpg" alt="Operatives fighting through a violet crystal field under a night skyline" width="960" height="540" loading="lazy"></a><figcaption>The final approach.</figcaption></figure>
+      <figure><a href="img/screenshot_05.jpg"><img src="img/thumb_05.jpg" alt="A co-op squad under a fan of laser beams during the Foremen fight" width="960" height="540" loading="lazy"></a><figcaption>Co-op against the Foremen. One operative is down and will redeploy next zone.</figcaption></figure>
+      <figure><a href="img/screenshot_06.jpg"><img src="img/thumb_06.jpg" alt="A black-and-white, signal-corrupted view of a firefight" width="960" height="540" loading="lazy"></a><figcaption>Not every sector has a clean signal.</figcaption></figure>
+      <figure><a href="img/screenshot_07.jpg"><img src="img/thumb_07.jpg" alt="An operative driving an armed rally truck under searchlights" width="960" height="540" loading="lazy"></a><figcaption>Some rooms have a vehicle in them. It is yours now.</figcaption></figure>
+      <figure><a href="img/screenshot_08.jpg"><img src="img/thumb_08.jpg" alt="A co-op squad trading beams and rockets with aliens in front of graffiti" width="960" height="540" loading="lazy"></a><figcaption>A four-player squad, well into a run.</figcaption></figure>
+    </div>
+
+    <h3 id="art">Capsule art</h3>
+    <div class="art">
+      <figure><a href="img/capsule_main_616x353.jpg"><img src="img/capsule_main_616x353.jpg" alt="TROUBLE SHOOTERS main capsule" width="616" height="353" loading="lazy"></a><figcaption>Main capsule, 616×353</figcaption></figure>
+      <figure><a href="img/capsule_header_460x215.jpg"><img src="img/capsule_header_460x215.jpg" alt="TROUBLE SHOOTERS header capsule" width="460" height="215" loading="lazy"></a><figcaption>Header, 460×215</figcaption></figure>
+    </div>
+
+    <h3 id="characters">Operatives</h3>
+    <p class="muted">In-game portraits, scaled up 4× with no smoothing (512×512 PNG).</p>
+    <div class="art portraits">
+      <figure><a href="img/portrait_grunt.png"><img class="px" src="img/portrait_grunt.png" alt="Grunt portrait" width="128" height="128" loading="lazy"></a><figcaption>Grunt</figcaption></figure>
+      <figure><a href="img/portrait_oduya.png"><img class="px" src="img/portrait_oduya.png" alt="Oduya portrait" width="128" height="128" loading="lazy"></a><figcaption>Oduya "Tank"</figcaption></figure>
+      <figure><a href="img/portrait_vasquez.png"><img class="px" src="img/portrait_vasquez.png" alt="Vasquez portrait" width="128" height="128" loading="lazy"></a><figcaption>Vasquez "Doc"</figcaption></figure>
+      <figure><a href="img/portrait_wraith.png"><img class="px" src="img/portrait_wraith.png" alt="Wraith portrait" width="128" height="128" loading="lazy"></a><figcaption>Wraith</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="policy">
+  <div class="wrap">
+    <p class="kicker">STREAMING AND VIDEO</p>
+    <h2>Yes, you can stream it.</h2>
+    <div class="prose">
+      <p>You are welcome to stream, record and upload TROUBLE SHOOTERS and its demo, and to monetize those videos and streams. You don't need to ask first.</p>
+      <p>The soundtrack is original and written for the game, so it should not trigger copyright claims. If a video of the game is ever claimed, email us and we will sort it out.</p>
+      <p>A link to the <a href="https://store.steampowered.com/app/4770300/?utm_source=musicforrobots&amp;utm_medium=website&amp;utm_campaign=press_kit&amp;utm_content=policy" rel="noopener">Steam page</a> in your description is appreciated, not required.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <p class="kicker">CONTACT</p>
+    <h2>Keys, interviews, questions.</h2>
+    <p class="prose">For review or preview keys, interviews, or anything missing from this page: <a href="mailto:press@musicforrobots.com">press@musicforrobots.com</a></p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Music for Robots</span>
+    <a href="../">musicforrobots.com</a>
+  </div>
+</footer>
+
+<script>
+document.querySelectorAll(".copy-btn").forEach(function (btn) {
+  btn.addEventListener("click", function () {
+    var block = btn.closest(".copyblock");
+    var text = Array.prototype.map.call(block.querySelectorAll("p:not(.label)"), function (p) { return p.textContent; }).join("\n\n");
+    if (!navigator.clipboard) return;
+    navigator.clipboard.writeText(text).then(function () {
+      btn.textContent = "COPIED";
+      setTimeout(function () { btn.textContent = "COPY"; }, 1500);
+    });
+  });
+});
+</script>
+</body>
+</html>
