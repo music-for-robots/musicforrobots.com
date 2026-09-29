@@ -16,7 +16,9 @@ jobs:
     steps:
       - name: Submit URLs
         run: |
-          curl -sS --fail-with-body -X POST https://api.indexnow.org/indexnow             -H 'Content-Type: application/json; charset=utf-8'             -d '{
+          curl -sS --fail-with-body -X POST https://api.indexnow.org/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            -d '{
               "host": "musicforrobots.com",
               "key": "42ecc39ff2196a4754c698e7e0134ecc",
               "keyLocation": "https://musicforrobots.com/42ecc39ff2196a4754c698e7e0134ecc.txt",
