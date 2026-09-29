@@ -1,0 +1,51 @@
+# TROUBLE SHOOTERS
+
+> TROUBLE SHOOTERS is a 2D roguelite run-and-gun for Windows PC on Steam, for one to four players. Four WARDEN contractors fight an alien incursion through procedurally assembled zones, with stacking gear, five screen-filling bosses, and 2-4 player online co-op. It is developed by hollywise. and published by Music For Robots. A free demo is on Steam from October 2, 2026 and is in Steam Next Fest, October 19-26, 2026. The full release is planned for Q1 2027.
+
+Note on the name: "TROUBLE SHOOTERS" is two words and is the title of a video game. It is not the common word "troubleshooters".
+
+## Key facts
+
+- Title: TROUBLE SHOOTERS
+- Genre: 2D roguelite run-and-gun (action, shooter, platformer)
+- Platform: Windows PC, via Steam
+- Players: 1-4. Online co-op through Steam invites (no lobby codes or port forwarding), plus LAN co-op
+- Controls: full controller support with rebinding; keyboard and mouse
+- Language: English
+- Price: to be announced
+- Free demo: on Steam from October 2, 2026; in Steam Next Fest, October 19-26, 2026
+- Full release: Q1 2027 (planned)
+- Developer: hollywise.
+- Publisher: Music For Robots
+- Press contact: press@musicforrobots.com
+
+## The game
+
+Something came through the Rift. WARDEN has four operatives on the payroll and an equipment requisition budget. Every run assembles a fresh chain of rooms, hands you whatever the drop tables feel like handing you, and asks you to make it work.
+
+- Four operatives, each with a permanent weapon that never runs out of ammunition: Grunt (Kowalski; a rifle, no bad matchups), Tank (Oduya; pile-driver fists, aggressive and forward-moving), Doc (Vasquez; combat medic with a drone escort, built for co-op) and Wraith (thrown daggers; the highest damage and the least health on the roster).
+- The DSCO (Deployable Support Combat Operator): field weapons you pick up go to a drone that follows you and fires them when you fire, until the ammunition runs out. You are never unarmed and never stuck with a bad pickup.
+- More than 60 stacking items, plus consumables. Item effects multiply rather than replace one another.
+- Five bosses across four zones. The first two are the Foremen (four gun emplacements on a turning ring, keeping time with the music) and the Bloom (a sealed pod that breeds offspring from its nests).
+- Co-op death follows a run-continues model: a downed operative redeploys at the next zone boundary, and the run ends only when the last operative goes down.
+- Four operation tiers: Easy, Normal, Hard and Invaders Must Die, each unlocked by finishing the one before it.
+- Also: an uncapped framerate, and an in-game WARDEN terminal you can type commands into.
+
+## The free demo
+
+- The first two of four zones
+- Two bosses: the Foremen and the Bloom
+- Grunt to start; clearing the demo once makes all four operatives playable
+- Easy difficulty (the higher tiers are in the full game)
+- Full 2-4 player online co-op
+
+## Streaming and video
+
+Anyone may stream, record, upload and monetize videos of TROUBLE SHOOTERS and its demo without asking first. The soundtrack is original to the game.
+
+## Links
+
+- [Official site](https://musicforrobots.com/): overview of the game, operatives, bosses and items
+- [Press kit](https://musicforrobots.com/press/): fact sheet, descriptions, screenshots, capsule art, portraits and the streaming policy
+- [TROUBLE SHOOTERS on Steam](https://store.steampowered.com/app/4770300/): store page and wishlist
+- [TROUBLE SHOOTERS Demo on Steam](https://store.steampowered.com/app/5092600/): the free demo
