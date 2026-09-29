@@ -1,0 +1,28 @@
+# Tells Bing (and the other IndexNow engines) to re-crawl the site after each
+# Pages deploy, instead of waiting for it to come round on its own.
+# The key file at the site root (42ecc39ff2196a4754c698e7e0134ecc.txt) proves we own the domain.
+name: IndexNow ping
+
+on:
+  workflow_run:
+    workflows: ["pages build and deployment"]
+    types: [completed]
+  workflow_dispatch:
+
+jobs:
+  ping:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Submit URLs
+        run: |
+          curl -sS --fail-with-body -X POST https://api.indexnow.org/indexnow             -H 'Content-Type: application/json; charset=utf-8'             -d '{
+              "host": "musicforrobots.com",
+              "key": "42ecc39ff2196a4754c698e7e0134ecc",
+              "keyLocation": "https://musicforrobots.com/42ecc39ff2196a4754c698e7e0134ecc.txt",
+              "urlList": [
+                "https://musicforrobots.com/",
+                "https://musicforrobots.com/press/",
+                "https://musicforrobots.com/llms.txt"
+              ]
+            }' -w '\nHTTP %{http_code}\n'
