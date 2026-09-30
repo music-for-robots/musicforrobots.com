@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Free VSTs | Music For Robots</title>
+<meta name="description" content="Free, open-source audio plugins from Music For Robots, starting with MFR-303: a 303-style acid bass synth with a built-in step sequencer, for Windows.">
+<meta name="theme-color" content="#060c14">
+<link rel="icon" type="image/png" href="../assets/sprites/eagle.png">
+<link rel="canonical" href="https://musicforrobots.com/vsts/">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://musicforrobots.com/vsts/">
+<meta property="og:title" content="Free VSTs from Music For Robots">
+<meta property="og:description" content="Free, open-source audio plugins. First up: MFR-303, a 303-style acid bass synth with a built-in step sequencer.">
+<meta property="og:image" content="https://musicforrobots.com/vsts/img/mfr-303.png">
+<meta property="og:image:width" content="960">
+<meta property="og:image:height" content="524">
+<meta property="og:image:alt" content="The MFR-303 plugin interface">
+<meta name="twitter:card" content="summary_large_image">
+
+<style>
+@font-face { font-family: "Orbitron"; src: url("../assets/fonts/Orbitron-VariableFont_wght.ttf") format("truetype"); font-weight: 400 900; font-display: swap; }
+@font-face { font-family: "WARDEN"; src: url("../assets/fonts/WARDENTerminalMono.ttf") format("truetype"); font-display: swap; }
+
+:root {
+  --accent: rgb(0 229 204);
+  --accent-bright: rgb(28 252 224);
+  --accent-dim: rgb(0 229 204 / .30);
+  --accent-faint: rgb(0 229 204 / .10);
+  --title: rgb(240 250 255);
+  --text: rgb(224 248 252);
+  --muted: rgb(140 185 210);
+  --dim: rgb(90 150 185);
+  --bg: #060c14;
+  --panel: rgb(8 16 28);
+  --mono: "WARDEN", "Consolas", "Courier New", monospace;
+  --display: "Orbitron", "Arial Black", sans-serif;
+  --gutter: clamp(16px, 4vw, 48px);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: var(--mono); font-size: 18px; line-height: 1.55;
+  -webkit-font-smoothing: antialiased; overflow-x: hidden;
+}
+a { color: var(--accent); }
+a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent-bright); outline-offset: 3px; }
+
+body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 50;
+  background: repeating-linear-gradient(to bottom, rgb(0 0 0 / .12) 0 1px, transparent 1px 3px);
+}
+
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 var(--gutter); }
+
+/* ── HEADER ─────────────────────────────────────────── */
+.top { border-bottom: 1px solid var(--accent-faint); padding: 18px 0; font-size: 15px; }
+.top .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.top a { color: var(--muted); text-decoration: none; }
+.top a:hover { color: var(--accent); }
+
+.masthead { padding: clamp(48px, 8vw, 96px) 0 clamp(32px, 5vw, 56px); }
+.stamp {
+  display: inline-block; font-size: 15px; color: var(--accent);
+  border: 1px solid var(--accent-dim); padding: 4px 10px; margin-bottom: 20px;
+}
+h1 {
+  font-family: var(--display); font-weight: 900; color: var(--title);
+  font-size: clamp(38px, 7vw, 84px); line-height: .92; margin: 0 0 20px;
+  letter-spacing: -.01em; text-shadow: 0 4px 0 rgb(0 0 0 / .45), 0 0 40px rgb(0 229 204 / .25);
+}
+h1 span { display: block; color: var(--accent); }
+.lede { max-width: 56ch; font-size: clamp(18px, 2.2vw, 21px); margin: 0; }
+
+.btn {
+  font-family: var(--display); font-weight: 800; font-size: 16px; text-decoration: none;
+  display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px;
+  border: 2px solid var(--accent); color: var(--bg); background: var(--accent);
+  transition: background-color .12s, color .12s;
+}
+.btn:hover { background: var(--accent-bright); }
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn.ghost:hover { background: var(--accent-faint); }
+.btn small { font-family: var(--mono); font-weight: normal; font-size: 14px; opacity: .8; }
+
+/* ── SECTIONS ───────────────────────────────────────── */
+section { padding: clamp(40px, 6vw, 72px) 0; border-top: 1px solid var(--accent-faint); }
+.kicker { font-size: 15px; color: var(--accent); margin: 0 0 10px; }
+.kicker::before { content: "// "; color: var(--dim); }
+h2 {
+  font-family: var(--display); font-weight: 800; color: var(--title);
+  font-size: clamp(24px, 3.4vw, 36px); line-height: 1.1; margin: 0 0 22px;
+}
+h3 { font-family: var(--display); font-weight: 800; color: var(--title); font-size: 18px; margin: 28px 0 10px; }
+p { margin: 0 0 16px; }
+.prose { max-width: 66ch; }
+.muted { color: var(--muted); }
+ul, ol { margin: 0 0 16px; padding-left: 1.2em; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+b, strong { color: var(--title); }
+code { color: var(--title); font-family: inherit; }
+
+/* ── PLUGIN CARDS ───────────────────────────────────── */
+/* One .plugin per VST. To add one, copy the article and change the contents. */
+.plugin {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 40px);
+  background: var(--panel); border: 1px solid var(--accent-faint); padding: clamp(18px, 2.5vw, 28px);
+  margin-bottom: 28px;
+}
+.plugin .shot { display: block; align-self: start; border: 1px solid var(--accent-faint); }
+.plugin .shot:hover { border-color: var(--accent); }
+.plugin .shot img { display: block; width: 100%; height: auto; }
+.plugin h3 { font-size: clamp(26px, 3vw, 34px); margin: 0 0 6px; line-height: 1; }
+.plugin .tagline { color: var(--accent); margin: 0 0 14px; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; padding: 0; list-style: none; }
+.chips li { font-size: 13px; color: var(--muted); border: 1px solid var(--accent-dim); padding: 2px 8px; margin: 0; }
+.plugin ul.feats { font-size: 16px; }
+.plugin .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+
+.soon { border: 1px dashed var(--accent-dim); padding: 18px 22px; color: var(--muted); max-width: 76ch; }
+
+/* ── FAQ ────────────────────────────────────────────── */
+.faq h3:first-child { margin-top: 0; }
+.fine { font-size: 14px; color: var(--dim); max-width: 76ch; margin-top: 28px; }
+
+footer { border-top: 1px solid var(--accent-faint); padding: 28px 0 40px; font-size: 14px; color: var(--dim); }
+footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+footer a { color: var(--muted); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+
+@media (max-width: 860px) {
+  .plugin { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a href="../">&larr; musicforrobots.com</a>
+    <span class="muted">FREE VSTs</span>
+  </div>
+</header>
+
+<main>
+
+<div class="masthead">
+  <div class="wrap">
+    <div class="stamp">MUSIC FOR ROBOTS // AUDIO PLUGINS</div>
+    <h1>FREE<span>VSTs</span></h1>
+    <p class="lede">Free, open-source plugins from Music For Robots. No accounts, no licence keys, no catch. Use them in anything you make, including commercial releases.</p>
+  </div>
+</div>
+
+<section id="plugins">
+  <div class="wrap">
+    <p class="kicker">PLUGINS</p>
+    <h2>The rack.</h2>
+
+    <article class="plugin" id="mfr-303">
+      <a class="shot" href="https://github.com/music-for-robots/MFR-303/releases/latest" rel="noopener">
+        <img src="img/mfr-303.png" alt="The MFR-303 interface: ten synth knobs above a 16-step sequencer grid" width="960" height="524" loading="lazy">
+      </a>
+      <div>
+        <h3>MFR-303</h3>
+        <p class="tagline">Acid bass line synthesizer.</p>
+        <ul class="chips" aria-label="Formats and licence">
+          <li>VST3 + Standalone</li>
+          <li>Windows 64-bit</li>
+          <li>Open source (AGPLv3)</li>
+        </ul>
+        <p>A monophonic bass synth in the spirit of the 303. It has the squelching resonant filter, the accent and slide that make acid lines move, and a step sequencer that syncs to your DAW.</p>
+        <ul class="feats">
+          <li><b>Diode-ladder style filter</b>, oversampled. Resonance thins the low end the way the original does.</li>
+          <li><b>Accent and slide.</b> Accents stack up when they come in a row.</li>
+          <li><b>16-step sequencer</b> with note, octave, gate, accent and slide per step, plus swing and a randomizer. Or play it from your piano roll.</li>
+          <li><b>Drive</b> for when clean isn't the point.</li>
+        </ul>
+        <div class="ctas">
+          <a class="btn" href="https://github.com/music-for-robots/MFR-303/releases/latest" rel="noopener">DOWNLOAD <small>(Windows)</small></a>
+          <a class="btn ghost" href="https://github.com/music-for-robots/MFR-303" rel="noopener">SOURCE CODE</a>
+        </div>
+      </div>
+    </article>
+
+    <p class="soon">More plugins are on the way. This page is where they'll turn up.</p>
+  </div>
+</section>
+
+<section id="install">
+  <div class="wrap">
+    <p class="kicker">INSTALLING</p>
+    <h2>Two ways in.</h2>
+    <div class="prose">
+      <p>Each plugin's download page has two files:</p>
+      <ul>
+        <li><b>The installer</b> (<code>…-setup.exe</code>) puts the VST3 in the standard folder and can also install the standalone app. It adds an uninstaller as well.</li>
+        <li><b>The zip</b> is for doing it yourself. Copy the <code>.vst3</code> folder into <code>C:\Program Files\Common Files\VST3\</code>.</li>
+      </ul>
+      <p>Then rescan plugins in your DAW. In FL Studio, that's <b>Options &rsaquo; Manage plugins &rsaquo; Find plugins</b>.</p>
+    </div>
+  </div>
+</section>
+
+<section id="faq" class="faq">
+  <div class="wrap">
+    <p class="kicker">QUESTIONS</p>
+    <h2>Before you ask.</h2>
+    <div class="prose">
+      <h3>Windows says it "protected your PC".</h3>
+      <p>The installers aren't code-signed yet, so Windows SmartScreen doesn't recognise them. Click <b>More info</b>, then <b>Run anyway</b>. If you'd rather skip the installer entirely, use the zip.</p>
+
+      <h3>Mac? Linux?</h3>
+      <p>Windows only for now. The code is portable, so other platforms are possible later.</p>
+
+      <h3>Is it really free?</h3>
+      <p>Yes. The plugins are free to use in your music, commercial releases included. The source code is public under the GNU AGPLv3. If you change the code and distribute it, you share your changes under the same licence.</p>
+
+      <h3>Found a bug, or have an idea?</h3>
+      <p>Open an issue on the plugin's GitHub page, e.g. <a href="https://github.com/music-for-robots/MFR-303/issues" rel="noopener">MFR-303 issues</a>.</p>
+    </div>
+    <p class="fine">VST is a trademark of Steinberg Media Technologies GmbH. TB-303 is a trademark of Roland Corporation. Music For Robots plugins are independent and are not affiliated with or endorsed by either company.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Music For Robots</span>
+    <a href="../">musicforrobots.com</a>
+    <a href="../press/">Press kit</a>
+  </div>
+</footer>
+
+</body>
+</html>

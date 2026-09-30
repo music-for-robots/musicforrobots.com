@@ -43,6 +43,7 @@ jobs:
               "urlList": [
                 "https://musicforrobots.com/",
                 "https://musicforrobots.com/press/",
+                "https://musicforrobots.com/vsts/",
                 "https://musicforrobots.com/llms.txt"
               ]
             }' -w '\nHTTP %{http_code}\n'

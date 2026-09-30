@@ -2,7 +2,8 @@
 
 Landing page for TROUBLE SHOOTERS. Plain static HTML, served by GitHub Pages.
 
-- `index.html` is the whole page (CSS inline, no JS, no build step).
+- `index.html` is the landing page (CSS inline, no build step). `press/` is the press kit.
+- `vsts/` is the Free VSTs page. Each plugin is one `<article class="plugin">` card, so to add a plugin, copy a card, drop a UI screenshot in `vsts/img/`, and link the plugin repo's `releases/latest`.
 - `assets/sprites/` are copied from the game repo (`Assets/Resources/Sprites/`). Sprite strips animate in CSS via `--w/--h` (cell px), `--n` (frames), `--s` (scale).
 - `assets/fonts/` are Orbitron (SIL OFL, see LICENSE.txt) and the game's own WARDEN Terminal face.
 - `assets/og.png` is the 1200x630 link-preview image.
