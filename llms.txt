@@ -1,6 +1,6 @@
 # TROUBLE SHOOTERS
 
-> TROUBLE SHOOTERS is a 2D roguelite run-and-gun for Windows PC on Steam, for one to four players. Four WARDEN contractors fight an alien incursion through procedurally assembled zones, with stacking gear, five screen-filling bosses, and 2-4 player online co-op. It is developed by hollywise. and published by Music For Robots. A free demo is on Steam from October 2, 2026 and is in Steam Next Fest, October 19-26, 2026. The full release is planned for Q1 2027.
+> TROUBLE SHOOTERS is a 2D roguelite run-and-gun for Windows PC on Steam, for one to four players. Four WARDEN contractors fight an alien incursion through procedurally assembled zones, with stacking gear, five screen-filling bosses, and 2-4 player online co-op. It is developed by hollywise. and published by Music For Robots. A free demo is on Steam from October 1, 2026 and is in Steam Next Fest, October 19-26, 2026. The full release is planned for Q1 2027.
 
 Note on the name: "TROUBLE SHOOTERS" is two words and is the title of a video game. It is not the common word "troubleshooters".
 
@@ -13,7 +13,7 @@ Note on the name: "TROUBLE SHOOTERS" is two words and is the title of a video ga
 - Controls: full controller support with rebinding; keyboard and mouse
 - Language: English
 - Price: to be announced
-- Free demo: on Steam from October 2, 2026; in Steam Next Fest, October 19-26, 2026
+- Free demo: on Steam from October 1, 2026; in Steam Next Fest, October 19-26, 2026
 - Full release: Q1 2027 (planned)
 - Developer: hollywise.
 - Publisher: Music For Robots
