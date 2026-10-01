@@ -47,6 +47,6 @@ Anyone may stream, record, upload and monetize videos of TROUBLE SHOOTERS and it
 
 - [Official site](https://musicforrobots.com/): overview of the game, operatives, bosses and items
 - [Press kit](https://musicforrobots.com/press/): fact sheet, descriptions, screenshots, capsule art, portraits and the streaming policy
-- [Free VSTs](https://musicforrobots.com/vsts/): free, open-source audio plugins from Music For Robots, including MFR-303, a 303-style acid bass synth, MFR-Mayo, a guitar fuzz effect with a simulated microphonic pickup that whistles when you stop playing, and MFR-Millionaire, a guitar drop tuner (play standard tuning as C standard or any drop, ~9 ms latency) into a three-amp desert-rock rig (Windows, VST3)
+- [Free VSTs](https://musicforrobots.com/vsts/): free, open-source audio plugins from Music For Robots, including MFR-303, a 303-style acid bass synth, MFR-Mayo, a guitar fuzz effect with a simulated microphonic pickup that whistles when you stop playing, and MFR-Millionaire, a guitar drop tuner (play standard tuning as C standard or any drop, ~9 ms latency) into a three-amp desert-rock rig, and MFR-Whale, a stereo guitar effect that runs one guitar through two different amp rigs at once (left and right) for a double-tracked sludge/prog-metal sound (Windows, VST3)
 - [TROUBLE SHOOTERS on Steam](https://store.steampowered.com/app/4770300/): store page and wishlist
 - [TROUBLE SHOOTERS Demo on Steam](https://store.steampowered.com/app/5092600/): the free demo
